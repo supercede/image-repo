@@ -23,9 +23,13 @@ module.exports = (err, request, response, next) => {
   }
 
   if (!isProduction) {
-    errorMessage = err;
+    errorMessage = err.stack;
   }
-  winston.error(`${err.status || 500} - ${err.message} - ${request.originalUrl} - ${request.method} - ${request.ip}`);
+  winston.error(
+    `statuscode ${err.statusCode || 500} - ${err.message} - ${
+      err.stack || err.errors
+    } - ${request.originalUrl} - ${request.method} - ${request.ip}`,
+  );
 
   // winston.error(err.message)
 

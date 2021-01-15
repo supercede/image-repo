@@ -41,10 +41,10 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   user.getExistinguser = async (queryString, column = 'email') => {
-    const user = await user.findOne({
+    const userData = await user.findOne({
       where: { [column]: queryString },
     });
-    return user;
+    return userData;
   };
 
   user.beforeCreate(async user => {
