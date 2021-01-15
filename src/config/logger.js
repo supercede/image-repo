@@ -28,6 +28,8 @@ const options = {
     json: false,
     colorize: true,
     format: format.combine(
+      format.colorize(),
+      format.prettyPrint(),
       format.timestamp({ format: 'MMM-DD-YYYY HH:mm:ss' }),
       // format.align(),
       format.printf(

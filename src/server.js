@@ -14,8 +14,6 @@ const server = http.createServer(app);
 Q.stopUnhandledRejectionTracking();
 
 process.on('uncaughtException', (error) => {
-  winston.error(`Uncaught Exception - ${error.message}`);
-
   process.exit(1);
 });
 
