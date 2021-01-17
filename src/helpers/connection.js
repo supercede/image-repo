@@ -5,10 +5,10 @@ require('dotenv').config();
 
 module.exports = {
   async rabbitmq() {
-    RabbitMQ.init('amqp://localhost');
+    RabbitMQ.init(process.env.RabbitMQ_URL);
   },
   async subscribe() {
-    await subscriber.init('amqp://localhost');
+    await subscriber.init(process.env.RabbitMQ_URL);
     // Delete Image
     subscriber.consume(
       'DELETE_USER_IMAGE',
