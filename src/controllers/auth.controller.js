@@ -18,7 +18,7 @@ const createCookieAndToken = (userData, statusCode, request, response) => {
   const token = userData.generateAccessToken();
 
   const cookieOptions = {
-    expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
     httpOnly: true,
     secure: request.secure || request.headers['x-forwarded-proto'] === 'https',
   };

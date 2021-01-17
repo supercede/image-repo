@@ -57,6 +57,15 @@ module.exports = {
     }
   },
 
+  /**
+   * @function getImages
+   * @description handles getting all public images
+   *
+   * @param {Object} request - the request object
+   * @param {Object} response - the response object
+   *
+   * @returns {Object} response - the response object
+   */
   getImages: async (request, response) => {
     const photos = await image.findAll({
       where: { permission: 'public' },
@@ -71,10 +80,16 @@ module.exports = {
     });
   },
 
+  /**
+   * @function getUserImages
+   * @description handles getting a user's private and public images
+   *
+   * @param {Object} request - the request object
+   * @param {Object} response - the response object
+   *
+   * @returns {Object} response - the response object
+   */
   getUserImages: async (request, response) => {
-    // const photos = await image.findAll({
-    //   where: { userId: request.user.id },
-    // });
     const photos = await request.user.getImages();
 
     return response.status(200).json({
@@ -86,6 +101,15 @@ module.exports = {
     });
   },
 
+  /**
+   * @function deleteImage
+   * @description handles deleting images
+   *
+   * @param {Object} request - the request object
+   * @param {Object} response - the response object
+   *
+   * @returns {Object} response - the response object
+   */
   deleteImages: async (request, response) => {
     const photosToDelete = request.body.photos;
 
@@ -116,12 +140,16 @@ module.exports = {
     });
   },
 
+  /**
+   * @function deleteAllUserImages
+   * @description handles deleting a users uploads
+   *
+   * @param {Object} request - the request object
+   * @param {Object} response - the response object
+   *
+   * @returns {Object} response - the response object
+   */
   deleteAllUserImages: async (request, response) => {
-    // await image.destroy({
-    //   where: {
-    //     userId: request.user.id,
-    //   },
-    // });
     const images = await request.user.getImages();
 
     if (images) {
