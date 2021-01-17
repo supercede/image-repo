@@ -5,15 +5,18 @@ module.exports = async function deleteImage(imgURL) {
   const imgArr = imgURL.split('/');
   const folderName = imgArr[imgArr.length - 2];
   const fileName = imgArr[imgArr.length - 1];
-  const publicID = fileName.substr(0, fileName.length - 4);
-
+  const publicID = fileName.substr(0, fileName.length - 5);
   const filePath = `${folderName}/${publicID}`;
 
   return cloudinary.v2.uploader.destroy(filePath, (err, result) => {
-    if (err) {
-      console.log(err);
+    if (!result) {
+      winston.error(
+        `failed to delete cloudinary image - ${err.result} - file path: ${filePath}`,
+      );
     } else {
-      console.log(result);
+      winston.info(
+        `Deleted cloudinary image - ${result.result} - file path: ${filePath}`,
+      );
     }
   });
 };

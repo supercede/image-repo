@@ -16,9 +16,9 @@ const photoStorage = new CloudinaryStorage({
   params: {
     format: async (req, file) => 'png',
     use_filename: true,
-    folder: 'naijafotos-imgs',
+    folder: 'img-repository',
   },
-  //   allowedFormats: ['jpg', 'png', 'jpeg'],
+  allowedFormats: ['jpg', 'png', 'jpeg'],
 });
 
 module.exports = multer({ storage: photoStorage });

@@ -8,8 +8,14 @@ const validator = require('../middleware/validator');
 const imageController = require('../controllers/image.controller');
 const imageValidation = require('../validation/image.validation');
 
-const { uploadImage } = imageController;
-const { imageUploadSchema } = imageValidation;
+const {
+  uploadImage,
+  getImages,
+  getUserImages,
+  deleteAllUserImages,
+  deleteImages,
+} = imageController;
+const { imageUploadSchema, deleteImageSchema } = imageValidation;
 
 const imageRouter = Router();
 
@@ -17,10 +23,16 @@ imageRouter
   .route('/')
   .post(
     authenticate,
-    upload.array('image', 4),
+    upload.array('image', 5),
     validator(imageUploadSchema),
     catchAsync(uploadImage),
-  );
-//   .get(getAllPhotos);
+  )
+  .get(catchAsync(getImages))
+  .delete(authenticate, validator(deleteImageSchema), catchAsync(deleteImages));
+
+imageRouter
+  .route('/me')
+  .get(authenticate, catchAsync(getUserImages))
+  .delete(authenticate, catchAsync(deleteAllUserImages));
 
 module.exports = imageRouter;

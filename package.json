@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.6.0",
     "app-root-path": "^3.0.0",
     "bcrypt": "^5.0.0",
     "cloudinary": "^1.23.0",

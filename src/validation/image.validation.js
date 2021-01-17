@@ -19,4 +19,15 @@ module.exports = {
       .isString()
       .withMessage('Expected tags to be an array of strings'),
   ],
+
+  deleteImageSchema: [
+    check('photos')
+      .not()
+      .isEmpty()
+      .withMessage('Photos field is required')
+      .isArray({ min: 1 })
+      .withMessage('Photos field be an array'),
+
+    check('photos.*').isUUID('4').withMessage('Photo ID should be UUIDV4'),
+  ],
 };

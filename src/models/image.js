@@ -25,6 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       imageURL: DataTypes.STRING,
       description: DataTypes.STRING,
+      permission: {
+        type: DataTypes.ENUM,
+        values: ['private', 'public'],
+        defaultValue: 'public',
+      },
       tags: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -39,7 +44,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'image',
-      paranoid: true,
     },
   );
   return image;
