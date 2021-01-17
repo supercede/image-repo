@@ -2,7 +2,7 @@
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6084374ff100ff91df3d)
 
-An Image Repository for the Spotify Backend Intern Challenge 2021
+An Image Repository for the Shopify Backend Intern Challenge 2021
 
 ### Prerequisites
 
