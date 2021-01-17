@@ -1,7 +1,7 @@
 {
   "name": "image-repo",
   "version": "1.0.0",
-  "description": "",
+  "description": "An Image Repository for the Shopify Backend Intern Challenge 2021",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +13,7 @@
     "start": "node src/server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ajagunna Sijuade",
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.6.0",
@@ -44,5 +44,8 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "prettier": "^2.2.1"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }
