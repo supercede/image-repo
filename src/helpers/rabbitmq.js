@@ -11,8 +11,8 @@ const RabbitMQ = {
 
     if (!amqp_url) {
       // Keeps failing on Heroku for some reason
-      console.log('2 -->', amqp_url);
       amqp_url = process.env.RABBITMQ_URL;
+      console.log('2 -->', amqp_url);
 
       if (!amqp_url) {
         throw new Error('Please specify an AMQP connection string.');
