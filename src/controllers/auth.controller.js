@@ -1,6 +1,7 @@
 const utils = require('../helpers/utils');
 const models = require('../models');
 const { ApplicationError } = require('../helpers/errors');
+const { client } = require('../helpers/redis');
 
 const { handleAuthSuccess } = utils;
 const { user } = models;
@@ -14,20 +15,27 @@ const { user } = models;
  *
  * @returns {Object} - The response object
  */
-const createCookieAndToken = (userData, statusCode, request, response) => {
+const createCookieAndToken = async (
+  userData,
+  statusCode,
+  request,
+  response,
+) => {
   const token = userData.generateAccessToken();
+  const expiry = 1 * 24 * 60 * 60 * 1000; // 1 day
 
   const cookieOptions = {
-    expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + expiry),
     httpOnly: true,
     secure: request.secure || request.headers['x-forwarded-proto'] === 'https',
   };
+
+  await client.setex(userData.id, expiry / 1000, token);
 
   const data = {};
   data.user = userData;
 
   response.cookie('imgRepo292', token, cookieOptions);
-
   handleAuthSuccess(response, statusCode, token, data);
 };
 
@@ -56,7 +64,7 @@ module.exports = {
       email,
     });
 
-    createCookieAndToken(newUser, 201, request, response);
+    await createCookieAndToken(newUser, 201, request, response);
   },
 
   /**
@@ -83,15 +91,17 @@ module.exports = {
       throw new ApplicationError(401, 'email or password is incorrect');
     }
 
-    createCookieAndToken(loginUser, 200, request, response);
+    await createCookieAndToken(loginUser, 200, request, response);
   },
 
-  logout: (request, response) => {
+  logout: async (request, response) => {
     response.cookie('imgRepo292', 'invalid', {
       // Expire in 1 second
       expires: new Date(Date.now() + 1 * 1000),
       httpOnly: true,
     });
+    await client.del(request.user.id);
+
     response.status(200).json({
       status: 'success',
       message: 'Logged out successfully',

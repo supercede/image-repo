@@ -4,6 +4,7 @@ const { promisify } = require('util');
 const catchAsync = require('../helpers/catchAsync');
 const models = require('../models');
 const { ApplicationError } = require('../helpers/errors');
+const { getAsync } = require('../helpers/redis');
 
 const { user } = models;
 
@@ -31,14 +32,19 @@ module.exports = {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     // Check if user exists
-    const currentuser = await user.findByPk(decoded.id);
-
-    if (!currentuser) {
+    const currentUser = await user.findByPk(decoded.id);
+    if (!currentUser) {
       return next(new ApplicationError(401, 'Invalid Token'));
     }
 
-    req.user = currentuser;
-    res.locals.user = currentuser;
+    // check if token exists in redis store
+    const result = await getAsync(currentUser.id);
+    if (!result || result !== token) {
+      return next(new ApplicationError(401, 'Invalid Token'));
+    }
+
+    req.user = currentUser;
+    res.locals.user = currentUser;
     next();
   }),
 };
