@@ -18,8 +18,9 @@ module.exports = {
       token = req.headers.authorization.split(' ')[1];
     } else if (req.cookies.imgRepo292) {
       // else check if it is in a cookie
-      token = req.cookies;
+      token = req.cookies.imgRepo292;
     }
+
     if (!token) {
       return next(
         new ApplicationError(401, 'You need to login to access this resource'),

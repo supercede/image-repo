@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      user.hasMany(models.image, {
+        foreignKey: {
+          name: 'userId',
+        },
+      });
     }
   }
   user.init(
@@ -65,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
 
   user.prototype.generateAccessToken = function () {
     return jwt.sign({ id: this.id }, secret, {
-      expiresIn: '3d',
+      expiresIn: '1d',
     });
   };
 
