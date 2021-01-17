@@ -5,18 +5,13 @@ require('dotenv').config();
 const RabbitMQ = {
   connection: '',
   channel: '',
-  async init(amqp_url) {
-    console.log('1 -->', amqp_url);
+  async init() {
     if (this.connection) return true; // prevents us from carelessly creating multiple AMQP connections in our app.
 
+    // Keeps failing on Heroku for some reason
+    const amqp_url = process.env.RABBITMQ_URL;
     if (!amqp_url) {
-      // Keeps failing on Heroku for some reason
-      amqp_url = process.env.RABBITMQ_URL;
-      console.log('2 -->', amqp_url);
-
-      if (!amqp_url) {
-        throw new Error('Please specify an AMQP connection string.');
-      }
+      throw new Error('Please specify an AMQP connection string.');
     }
 
     // set connection heartbeat to 60

@@ -1,14 +1,13 @@
 const deleteImage = require('./deleteImage');
 const RabbitMQ = require('./rabbitmq');
 const subscriber = require('./rabbitmq');
-require('dotenv').config();
 
 module.exports = {
   async rabbitmq() {
-    RabbitMQ.init(process.env.RabbitMQ_URL);
+    RabbitMQ.init();
   },
   async subscribe() {
-    await subscriber.init(process.env.RabbitMQ_URL);
+    await subscriber.init();
     // Delete Image
     subscriber.consume(
       'DELETE_USER_IMAGE',
