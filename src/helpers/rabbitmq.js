@@ -5,6 +5,7 @@ const RabbitMQ = {
   connection: '',
   channel: '',
   async init(amqp_url) {
+    console.log(amqp_url);
     if (this.connection) return true; // prevents us from carelessly creating multiple AMQP connections in our app.
 
     if (!amqp_url) throw new Error('Please specify an AMQP connection string.');
